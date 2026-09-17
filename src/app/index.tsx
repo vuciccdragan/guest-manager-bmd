@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
-      <Pressable><Text style={styles.title}>GUEST MANAGER</Text></Pressable>
-      <Pressable><Text style={styles.cards}>STANJE VILLE</Text></Pressable>
-      <Pressable><Text style={styles.cards}>APARTMANI</Text></Pressable>
-      <Pressable><Text style={styles.cards}>SLOBODNO</Text></Pressable>
-      <Pressable><Text style={styles.cards}>DNEVNI PLAN</Text></Pressable>
-      <Pressable><Text style={styles.cards}>RASPORED GOSTIJU</Text></Pressable>
+      <Text style={styles.title}>GUEST MANAGER</Text>
+      <Pressable onPress={() => router.push("/stanje-ville")}><Text style={styles.cards}>STANJE VILLE</Text></Pressable>
+      <Pressable onPress={() => router.push("/apartmani")}><Text style={styles.cards}>APARTMANI</Text></Pressable>
+      <Pressable onPress={() => router.push("/slobodno")}><Text style={styles.cards}>SLOBODNO</Text></Pressable>
+      <Pressable onPress={() => router.push("/dnevni-plan")}><Text style={styles.cards}>DNEVNI PLAN</Text></Pressable>
+      <Pressable onPress={() => router.push("/raspored-gostiju")}><Text style={styles.cards}>RASPORED GOSTIJU</Text></Pressable>
     </View>
   );
 }
