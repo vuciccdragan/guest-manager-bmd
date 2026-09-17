@@ -1,56 +1,46 @@
-# Welcome to your Expo app 👋
+# Villa Bomada — Guest Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile app for managing guests and reservations across a 7-apartment
+accommodation property. Built to replace the paper notebook and spreadsheet
+the property was managed with.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Property timeline** — all 7 apartments on a horizontal calendar, with
+  reservations shown as colour-coded bars (green for Booking.com guests,
+  blue for direct bookings, yellow for friends and family)
+- **Availability search** — check which apartments are free for a given date range
+- **Daily plan** — check-outs, check-ins and cleaning tasks for the day, with
+  checkboxes to mark them done
+- **Guest schedule** — per-night breakdown of each stay, including automatically
+  suggested linen and towel changes that can be edited or moved to another day
+- **Apartment history** — past, current and upcoming guests for each apartment,
+  with the free gaps between them
 
-   ```bash
-   npm install
-   ```
+## Status
 
-2. Start the app
+Work in progress. The UI is being built first, with data persistence and
+multi-device sync to follow.
 
-   ```bash
-   npx expo start
-   ```
+## Built with
 
-In the output, you'll find options to open the app in a
+- React Native
+- Expo / Expo Router
+- TypeScript
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Running locally
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Install dependencies:
 
-## Get a fresh project
+npm install
 
-When you're ready, run:
+Start the development server:
 
-```bash
-npm run reset-project
-```
+npx expo start
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Then open the project in Expo Go, an Android emulator, or an iOS simulator.
 
-### Other setup steps
+## Note
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is written by hand, without AI code generation. The goal is to
+learn the stack properly rather than ship something I don't understand.
