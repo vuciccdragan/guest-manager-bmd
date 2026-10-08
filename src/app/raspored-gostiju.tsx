@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import RedakGosta from "../components/redak-gosta";
-import { gosti } from "../data/gosti";
+import { useGosti } from "@/context/gosti-context";
 import { apartmani } from "../data/apartmani";
 
 export default function RasporedGostiju() {
+  const {gosti} = useGosti();
   const slobodniApartmani = apartmani.filter(apartman =>
     !gosti.some(gost => apartman === gost.apartman)
   );
