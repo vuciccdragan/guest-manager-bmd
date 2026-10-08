@@ -11,7 +11,6 @@ export default function RedakGosta(props: { gostProp: Gost }) {
     const router = useRouter()
     return (
         <Pressable onPress={() => { 
-            console.log("Saljem:", `/gost/${gost.id}`);
             router.push(`/gost/${gost.id}`);
         }}>
             <View
