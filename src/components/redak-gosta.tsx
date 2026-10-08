@@ -1,42 +1,48 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { bojaZaTipGosta, Gost } from "../data/gosti";
 import formatirajDatum from "../utils/datum";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { router, useRouter } from "expo-router";
 
 
 export default function RedakGosta(props: { gostProp: Gost }) {
     const gost = props.gostProp;
-
+    const router = useRouter()
     return (
-        <View
-            style={[
-                styles.kartica,
-                { backgroundColor: bojaZaTipGosta[gost.tipGosta] },
-            ]}
-        >
-            <Text style={styles.apartman}>{gost.apartman}</Text>
+        <Pressable onPress={() => { 
+            console.log("Saljem:", `/gost/${gost.id}`);
+            router.push(`/gost/${gost.id}`);
+        }}>
+            <View
+                style={[
+                    styles.kartica,
+                    { backgroundColor: bojaZaTipGosta[gost.tipGosta] },
+                ]}
+            >
+                <Text style={styles.apartman}>{gost.apartman}</Text>
 
-            <View style={styles.sredina}>
-                <Text style={styles.ime}>{gost.ime}</Text>
+                <View style={styles.sredina}>
+                    <Text style={styles.ime}>{gost.ime}</Text>
 
-                <View style={styles.donjiRed}>
-                    <View style={styles.osobe}>
-                        <Text style={styles.info}>{gost.odrasli}</Text>
-                        <Ionicons name="person-outline" size={14} color="#334155" />
+                    <View style={styles.donjiRed}>
+                        <View style={styles.osobe}>
+                            <Text style={styles.info}>{gost.odrasli}</Text>
+                            <Ionicons name="person-outline" size={14} color="#334155" />
+                        </View>
+
+                        <View style={styles.osobe}>
+                            <Text style={styles.info}>{gost.djeca}</Text>
+                            <MaterialCommunityIcons name="baby-bottle-outline" size={14} color="#334155" />
+                        </View>
+
+                        <Text style={styles.info}>do {formatirajDatum(gost.doDatum)}</Text>
                     </View>
-
-                    <View style={styles.osobe}>
-                        <Text style={styles.info}>{gost.djeca}</Text>
-                        <MaterialCommunityIcons name="baby-bottle-outline" size={14} color="#334155" />
-                    </View>
-
-                    <Text style={styles.info}>do {formatirajDatum(gost.doDatum)}</Text>
                 </View>
-            </View>
 
-            <Ionicons name="arrow-forward" size={26} color="#0F172A" />
-        </View>
+                <Ionicons name="arrow-forward" size={26} color="#0F172A" />
+            </View>
+        </Pressable>
     );
 }
 
