@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     },
     prazno: {
         marginTop: 18,
+        paddingHorizontal: 14,
         fontSize: 13,
         color: "#94A3B8",
         fontStyle: "italic",
