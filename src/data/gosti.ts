@@ -20,8 +20,8 @@ export const gosti: Gost[] = [
         id: 1,
         ime: "Marko Marić",
         apartman: "A1",
-        odDatum: "2026-07-14",
-        doDatum: "2026-07-21",
+        odDatum: "2026-10-09",
+        doDatum: "2026-10-29",
         tipGosta: "booking",
         odrasli: 2,
         djeca: 0
@@ -45,5 +45,15 @@ export const gosti: Gost[] = [
         tipGosta: "prijatelji",
         odrasli: 2,
         djeca: 1
+    },
+    {
+        id: 4,
+        ime: "Boris Šarić",
+        apartman: "A4",
+        odDatum: "2026-11-16",
+        doDatum: "2026-11-23",
+        tipGosta: "prijatelji",
+        odrasli: 2,
+        djeca: 2
     }
 ]

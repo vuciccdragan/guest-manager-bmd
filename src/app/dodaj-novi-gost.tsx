@@ -13,7 +13,7 @@ const tipovi = [
   { kljuc: "prijatelji", naziv: "Prijatelji", boja: "#CA8A04", ikona: "heart" },
 ];
 
-const MAX_OSOBA = 5;
+const maxOsoba = 5;
 
 export default function DodajNovogGosta() {
   const router = useRouter();
@@ -29,12 +29,12 @@ export default function DodajNovogGosta() {
   const [otvorenIzbornik, postaviOtvorenIzbornik] = useState(false);
 
   function dodajOdraslog() {
-    if (odrasli + djeca >= MAX_OSOBA) return;
+    if (odrasli + djeca >= maxOsoba) return;
     postaviOdrasli(odrasli + 1);
   }
 
   function dodajDijete() {
-    if (odrasli + djeca >= MAX_OSOBA) return;
+    if (odrasli + djeca >= maxOsoba) return;
     postaviDjecu(djeca + 1);
   }
 
