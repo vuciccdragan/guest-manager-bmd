@@ -11,6 +11,8 @@ export default function RasporedGostiju() {
   const slobodniApartmani = apartmani.filter(apartman =>
     !gosti.some(gost => apartman === gost.apartman)
   );
+  const danas = new Date().toISOString().split("T")[0];
+  const trenutniGosti = gosti.filter(gost => gost.odDatum < danas && gost.doDatum > danas)
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.sadrzaj}>
@@ -19,10 +21,10 @@ export default function RasporedGostiju() {
         <Text style={styles.natragTekst}>Natrag</Text>
       </Pressable>
       <Text style={styles.naslov}>
-        Trenutno stanje u apartmanima • {gosti.length} gostiju
+        Trenutno stanje u apartmanima • {trenutniGosti.length} gostiju
       </Text>
 
-      {gosti.map(gost => (
+      {trenutniGosti.map(gost => (
         <RedakGosta key={gost.id} gostProp={gost} />
       ))}
 

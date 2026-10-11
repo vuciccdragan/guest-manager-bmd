@@ -1,3 +1,5 @@
+const daniUTjednu = ["Nedjelja", "Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota"]
+
 export default function formatirajDatum(datum: string): string {
     const datumTekst = datum.split("-")
     const mjesecTekst = datumTekst[1];
@@ -7,6 +9,13 @@ export default function formatirajDatum(datum: string): string {
     const dan = parseInt(danTekst);
 
     return dan + "." + mjesec + "."
+}
+
+export function nazoviDane(datum: string) : string {
+    const nekiDatum = new Date(datum)
+    const brojDana = nekiDatum.getDay();
+
+    return daniUTjednu[brojDana];
 }
 
 export function ostatakBrojaNoci(datumDo: string): number {

@@ -4,6 +4,8 @@ import { useRouter } from "expo-router";
 import { pomakniDatum } from "@/utils/datum";
 import formatirajDatum from "@/utils/datum";
 import { useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { nazoviDane } from "@/utils/datum";
 
 export default function DnevniPlan() {
     const { gosti } = useGosti();
@@ -28,7 +30,7 @@ export default function DnevniPlan() {
                     <Text style={styles.strelica}>‹</Text>
                 </Pressable>
 
-                <Text style={styles.datum}>{formatirajDatum(datum)}</Text>
+                <Text style={styles.datum}>{nazoviDane(datum)}, {formatirajDatum(datum)}</Text>
 
                 <Pressable onPress={() => postaviDatum(pomakniDatum(datum, 1))}>
                     <Text style={styles.strelica}>›</Text>
@@ -52,9 +54,13 @@ export default function DnevniPlan() {
                         <Text style={styles.skupina}>ČIŠĆENJE</Text>
                         {ciscenje.map(oznaka => {
                             const kljuc = datum + "-ciscenje-" + oznaka;
+                            const jeGotov = odradeni.includes(kljuc);
                             return (
                                 <Pressable key={kljuc} style={styles.zadatak} onPress={() => oznaciGotovo(kljuc)}>
-                                    <Text style={[styles.zadatakTekst, odradeni.includes(kljuc) && styles.gotovo]}>{oznaka}</Text>
+                                    <View style={[styles.kruzic, jeGotov && styles.kruzicGotov]}>
+                                        {jeGotov && <Ionicons name="checkmark" size={15} color="white" />}
+                                    </View>
+                                    <Text style={[styles.zadatakTekst, jeGotov && styles.gotovo]}>{oznaka}</Text>
                                 </Pressable>
                             );
                         })}
@@ -100,12 +106,6 @@ const styles = StyleSheet.create({
         marginTop: 18,
         marginBottom: 6,
     },
-    zadatak: {
-        backgroundColor: "white",
-        borderRadius: 10,
-        paddingVertical: 12,
-        paddingHorizontal: 14,
-    },
     zadatakTekst: {
         fontSize: 15,
         color: "#0F172A",
@@ -120,5 +120,27 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: "#94A3B8",
         fontStyle: "italic",
+    },
+    zadatak: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 12,
+        backgroundColor: "white",
+        borderRadius: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 14,
+    },
+    kruzic: {
+        width: 22,
+        height: 22,
+        borderRadius: 11,
+        borderWidth: 2,
+        borderColor: "#CBD5E1",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    kruzicGotov: {
+        backgroundColor: "#22C55E",
+        borderColor: "#22C55E",
     },
 });
