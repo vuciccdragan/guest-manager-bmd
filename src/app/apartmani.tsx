@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { apartmani } from "@/data/apartmani";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 export default function Apartmani() {
   const router = useRouter();
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.sadrzaj}>
       <Pressable style={styles.natrag} onPress={() => router.back()}>
         <Ionicons name="chevron-back" size={22} color="#5D70E5" />
         <Text style={styles.natragTekst}>Natrag</Text>
@@ -16,7 +16,7 @@ export default function Apartmani() {
           <Text style={styles.cards}>APARTMAN {apartman}</Text>
         </Pressable>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -32,12 +32,16 @@ const styles = StyleSheet.create({
     color: "#5D70E5",
     fontWeight: "600",
   },
+
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#E1FAF8",
-    gap: 30
+  },
+  sadrzaj: {
+    alignItems: "center",
+    gap: 30,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
   },
 
   cards: {

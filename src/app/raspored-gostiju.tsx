@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import RedakGosta from "../components/redak-gosta";
 import { useGosti } from "@/context/gosti-context";
 import { apartmani } from "../data/apartmani";
@@ -13,32 +13,34 @@ export default function RasporedGostiju() {
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.sadrzaj}>
       <Pressable style={styles.natrag} onPress={() => router.back()}>
         <Ionicons name="chevron-back" size={22} color="#5D70E5" />
         <Text style={styles.natragTekst}>Natrag</Text>
-        </Pressable>
-        <Text style={styles.naslov}>
-          Trenutno stanje u apartmanima • {gosti.length} gostiju
-        </Text>
+      </Pressable>
+      <Text style={styles.naslov}>
+        Trenutno stanje u apartmanima • {gosti.length} gostiju
+      </Text>
 
-        {gosti.map(gost => (
-          <RedakGosta key={gost.id} gostProp={gost} />
-        ))}
+      {gosti.map(gost => (
+        <RedakGosta key={gost.id} gostProp={gost} />
+      ))}
 
-        <Text style={styles.slobodni}>
-          Slobodni: {slobodniApartmani.join(" • ")}
-        </Text>
-    </View>
+      <Text style={styles.slobodni}>
+        Slobodni: {slobodniApartmani.join(" • ")}
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#EEF2F6",
+  },
+  sadrzaj: {
     padding: 20,
     gap: 14,
-    backgroundColor: "#EEF2F6",
   },
   natrag: {
     flexDirection: "row",

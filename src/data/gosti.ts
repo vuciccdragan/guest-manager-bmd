@@ -4,7 +4,7 @@ export type Gost = {
     apartman: string,
     odDatum: string,
     doDatum: string,
-    tipGosta: "booking" | "direkt" |"prijatelji",
+    tipGosta: "booking" | "direkt" | "prijatelji",
     odrasli: number,
     djeca: number
 };
@@ -40,8 +40,8 @@ export const gosti: Gost[] = [
         id: 3,
         ime: "Ivana Ivić",
         apartman: "A5",
-        odDatum: "2026-07-16",
-        doDatum: "2026-07-23",
+        odDatum: "2026-10-05",
+        doDatum: "2026-10-10",
         tipGosta: "prijatelji",
         odrasli: 2,
         djeca: 1

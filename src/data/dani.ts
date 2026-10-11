@@ -1,0 +1,1 @@
+export const daniTjedan = ["Nedjelja", "Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota"]

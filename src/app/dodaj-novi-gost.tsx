@@ -17,7 +17,7 @@ const maxOsoba = 5;
 
 export default function DodajNovogGosta() {
   const router = useRouter();
-  const { dodajGosta } = useGosti();
+  const { gosti, dodajGosta } = useGosti();
 
   const [imeGosta, postaviIme] = useState("");
   const [apartman, postaviApartman] = useState("");
@@ -41,6 +41,13 @@ export default function DodajNovogGosta() {
   function spremiRezervaciju() {
     if (imeGosta === "" || apartman === "" || datumOd === "" || datumDo === "" || tipGosta === "") {
       Alert.alert("Greška", "Popunite sva polja.");
+      return;
+    }
+
+    const zauzeto = gosti.some(gost => gost.apartman === apartman && datumOd < gost.doDatum && datumDo > gost.odDatum);
+
+    if (zauzeto) {
+      Alert.alert("Apartman zauzet", "U tim datumima apartman je već rezerviran.");
       return;
     }
 

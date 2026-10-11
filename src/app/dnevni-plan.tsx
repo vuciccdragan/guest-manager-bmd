@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 import { useGosti } from "@/context/gosti-context";
 import { useRouter } from "expo-router";
 import { pomakniDatum } from "@/utils/datum";
@@ -9,6 +9,14 @@ export default function DnevniPlan() {
     const { gosti } = useGosti();
     const router = useRouter();
     const [datum, postaviDatum] = useState(new Date().toISOString().split("T")[0]);
+    const [odradeni, postaviOdradene] = useState<string[]>([])
+    function oznaciGotovo(zadatak: string) {
+        if (odradeni.includes(zadatak)) {
+            postaviOdradene(odradeni.filter(z => z !== zadatak));
+        } else {
+            postaviOdradene([...odradeni, zadatak]);
+        }
+    }
     const odlasci = gosti.filter(gost => gost.doDatum === datum)
     const dolasci = gosti.filter(gost => gost.odDatum === datum)
     const ciscenje = odlasci.map(gost => gost.apartman)
@@ -30,7 +38,7 @@ export default function DnevniPlan() {
                 <Text style={styles.prazno}>Nema ničega za odraditi ovaj dan.</Text>
             ) : (
                 <>
-                    <View style={styles.sadrzaj}>
+                    <ScrollView contentContainerStyle={styles.sadrzaj}>
                         <Text style={styles.skupina}>ODJAVE</Text>
                         {odlasci.map(gost => (
                             <Text key={gost.id} style={styles.zadatak}>{gost.ime} · {gost.apartman}</Text>
@@ -42,10 +50,15 @@ export default function DnevniPlan() {
                         ))}
 
                         <Text style={styles.skupina}>ČIŠĆENJE</Text>
-                        {ciscenje.map(oznaka => (
-                            <Text key={oznaka} style={styles.zadatak}>{oznaka}</Text>
-                        ))}
-                    </View>
+                        {ciscenje.map(oznaka => {
+                            const kljuc = datum + "-ciscenje-" + oznaka;
+                            return (
+                                <Pressable key={kljuc} style={styles.zadatak} onPress={() => oznaciGotovo(kljuc)}>
+                                    <Text style={[styles.zadatakTekst, odradeni.includes(kljuc) && styles.gotovo]}>{oznaka}</Text>
+                                </Pressable>
+                            );
+                        })}
+                    </ScrollView>
                 </>
             )}
         </View>
@@ -92,8 +105,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 14,
+    },
+    zadatakTekst: {
         fontSize: 15,
         color: "#0F172A",
+    },
+    gotovo: {
+        textDecorationLine: "line-through",
+        color: "#94A3B8",
     },
     prazno: {
         marginTop: 18,
