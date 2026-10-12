@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { apartmani } from "../data/apartmani";
 import { useGosti } from "@/context/gosti-context";
 import { Gost } from "@/data/gosti";
-import { formatirajDatum }  from "@/utils/datum";
+import { formatirajDatum } from "@/utils/datum";
 
 const tipovi = [
   { kljuc: "booking", naziv: "Booking", boja: "#16A34A", ikona: "earth" },
@@ -114,22 +114,31 @@ export default function DodajNovogGosta() {
         <Ionicons name="chevron-down" size={18} color="white" />
       </Pressable>
 
-      {otvorenIzbornik && (
-        <View style={styles.izbornik}>
-          {apartmani.map(a => (
-            <Pressable
-              key={a}
-              style={styles.izbornikStavka}
-              onPress={() => {
-                postaviApartman(a);
-                postaviOtvorenIzbornik(false);
-              }}
-            >
-              <Text style={styles.izbornikTekst}>{a}</Text>
-            </Pressable>
-          ))}
-        </View>
-      )}
+      <Modal
+        visible={otvorenIzbornik}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => postaviOtvorenIzbornik(false)}
+      >
+        <Pressable style={styles.pozadina} onPress={() => postaviOtvorenIzbornik(false)}>
+          <Pressable style={styles.modalKartica} onPress={() => { }}>
+            <Text style={styles.modalNaslov}>Odaberi apartman</Text>
+
+            {apartmani.map(a => (
+              <Pressable
+                key={a}
+                style={styles.izbornikStavka}
+                onPress={() => {
+                  postaviApartman(a);
+                  postaviOtvorenIzbornik(false);
+                }}
+              >
+                <Text style={styles.izbornikTekst}>{a}</Text>
+              </Pressable>
+            ))}
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       <Text style={styles.oznaka}>UNESITE DATUM BORAVKA</Text>
       <View style={styles.red}>
@@ -218,7 +227,7 @@ export default function DodajNovogGosta() {
         onRequestClose={() => postaviBiracOtvoren(null)}
       >
         <Pressable style={styles.pozadina} onPress={() => postaviBiracOtvoren(null)}>
-          <Pressable style={styles.modalKartica} onPress={() => {}}>
+          <Pressable style={styles.modalKartica} onPress={() => { }}>
             <Text style={styles.modalNaslov}>
               {biracOtvoren === "od" ? "Datum dolaska" : "Datum odlaska"}
             </Text>
@@ -257,8 +266,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#5D70E5", borderRadius: 10, marginTop: 6, paddingVertical: 6,
     alignSelf: "flex-start", minWidth: 160,
   },
-  izbornikStavka: { paddingVertical: 8, paddingHorizontal: 16 },
-  izbornikTekst: { color: "white", fontSize: 16, fontWeight: "bold" },
+  izbornikStavka: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F1F5F9",
+  },
+  izbornikTekst: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#0F172A",
+  },
   red: { flexDirection: "row", gap: 12 },
   polaRed: { flex: 1 },
   polje: {

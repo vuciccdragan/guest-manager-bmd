@@ -6,13 +6,13 @@ import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function RasporedGostiju() {
+  const danas = new Date().toISOString().split("T")[0];
   const { gosti } = useGosti();
   const router = useRouter();
-  const slobodniApartmani = apartmani.filter(apartman =>
-    !gosti.some(gost => apartman === gost.apartman)
-  );
-  const danas = new Date().toISOString().split("T")[0];
   const trenutniGosti = gosti.filter(gost => gost.odDatum < danas && gost.doDatum > danas)
+  const slobodniApartmani = apartmani.filter(apartman =>
+    !trenutniGosti.some(gost => gost.apartman === apartman)
+  );
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.sadrzaj}>
@@ -21,7 +21,7 @@ export default function RasporedGostiju() {
         <Text style={styles.natragTekst}>Natrag</Text>
       </Pressable>
       <Text style={styles.naslov}>
-        Trenutno stanje u apartmanima • {trenutniGosti.length} gostiju
+        Trenutno stanje u apartmanima
       </Text>
 
       {trenutniGosti.map(gost => (
