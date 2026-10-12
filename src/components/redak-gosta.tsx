@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { bojaZaTipGosta, Gost } from "../data/gosti";
-import formatirajDatum from "../utils/datum";
+import {formatirajDatum} from "../utils/datum";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router, useRouter } from "expo-router";
 

@@ -1,6 +1,6 @@
 const daniUTjednu = ["Nedjelja", "Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota"]
 
-export default function formatirajDatum(datum: string): string {
+export function formatirajDatum(datum: string): string {
     const datumTekst = datum.split("-")
     const mjesecTekst = datumTekst[1];
     const danTekst = datumTekst[2];

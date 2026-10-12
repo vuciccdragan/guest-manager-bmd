@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import { apartmani } from "../data/apartmani";
 import { useGosti } from "@/context/gosti-context";
 import { Gost } from "@/data/gosti";
+import { formatirajDatum }  from "@/utils/datum";
 
 const tipovi = [
   { kljuc: "booking", naziv: "Booking", boja: "#16A34A", ikona: "earth" },
@@ -27,6 +29,7 @@ export default function DodajNovogGosta() {
   const [odrasli, postaviOdrasli] = useState(2);
   const [djeca, postaviDjecu] = useState(0);
   const [otvorenIzbornik, postaviOtvorenIzbornik] = useState(false);
+  const [biracOtvoren, postaviBiracOtvoren] = useState<"od" | "do" | null>(null);
 
   function dodajOdraslog() {
     if (odrasli + djeca >= maxOsoba) return;
@@ -38,13 +41,37 @@ export default function DodajNovogGosta() {
     postaviDjecu(djeca + 1);
   }
 
+  function odaberiDatum(odabrani: Date) {
+    const tekst = odabrani.toISOString().split("T")[0];
+    if (biracOtvoren === "od") {
+      postaviDatumOd(tekst);
+    } else {
+      postaviDatumDo(tekst);
+    }
+  }
+
+  function trenutnaVrijednostBiraca() {
+    const vrijednost = biracOtvoren === "od" ? datumOd : datumDo;
+    return vrijednost === "" ? new Date() : new Date(vrijednost);
+  }
+
   function spremiRezervaciju() {
     if (imeGosta === "" || apartman === "" || datumOd === "" || datumDo === "" || tipGosta === "") {
       Alert.alert("Greška", "Popunite sva polja.");
       return;
     }
 
-    const zauzeto = gosti.some(gost => gost.apartman === apartman && datumOd < gost.doDatum && datumDo > gost.odDatum);
+    if (datumDo <= datumOd) {
+      Alert.alert("Greška", "Datum odlaska mora biti nakon datuma dolaska.");
+      return;
+    }
+
+    const zauzeto = gosti.some(
+      gost =>
+        gost.apartman === apartman &&
+        datumOd < gost.doDatum &&
+        datumDo > gost.odDatum
+    );
 
     if (zauzeto) {
       Alert.alert("Apartman zauzet", "U tim datumima apartman je već rezerviran.");
@@ -108,29 +135,26 @@ export default function DodajNovogGosta() {
       <View style={styles.red}>
         <View style={styles.polaRed}>
           <Text style={styles.mala}>OD</Text>
-          <TextInput
-            style={styles.polje}
-            value={datumOd}
-            onChangeText={postaviDatumOd}
-            placeholder="2026-07-14"
-            placeholderTextColor="#94A3B8"
-          />
+          <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("od")}>
+            <Text style={datumOd === "" ? styles.placeholder : styles.poljeTekst}>
+              {datumOd === "" ? "Odaberi" : formatirajDatum(datumOd)}
+            </Text>
+          </Pressable>
         </View>
+
         <View style={styles.polaRed}>
           <Text style={styles.mala}>DO</Text>
-          <TextInput
-            style={styles.polje}
-            value={datumDo}
-            onChangeText={postaviDatumDo}
-            placeholder="2026-07-21"
-            placeholderTextColor="#94A3B8"
-          />
+          <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("do")}>
+            <Text style={datumDo === "" ? styles.placeholder : styles.poljeTekst}>
+              {datumDo === "" ? "Odaberi" : formatirajDatum(datumDo)}
+            </Text>
+          </Pressable>
         </View>
       </View>
 
       <Text style={styles.oznaka}>IME GOSTA</Text>
       <TextInput
-        style={styles.polje}
+        style={[styles.polje, styles.poljeTekst]}
         value={imeGosta}
         onChangeText={postaviIme}
         placeholder="npr. Marko Marić"
@@ -187,6 +211,34 @@ export default function DodajNovogGosta() {
         <Text style={styles.gumbTekst}>SPREMI REZERVACIJU</Text>
       </Pressable>
 
+      <Modal
+        visible={biracOtvoren !== null}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => postaviBiracOtvoren(null)}
+      >
+        <Pressable style={styles.pozadina} onPress={() => postaviBiracOtvoren(null)}>
+          <Pressable style={styles.modalKartica} onPress={() => {}}>
+            <Text style={styles.modalNaslov}>
+              {biracOtvoren === "od" ? "Datum dolaska" : "Datum odlaska"}
+            </Text>
+
+            <DateTimePicker
+              value={trenutnaVrijednostBiraca()}
+              mode="date"
+              display="inline"
+              themeVariant="light"
+              accentColor="#5D70E5"
+              onValueChange={(dogadaj, odabrani) => odaberiDatum(odabrani)}
+            />
+
+            <Pressable style={styles.modalGumb} onPress={() => postaviBiracOtvoren(null)}>
+              <Text style={styles.modalGumbTekst}>GOTOVO</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
     </ScrollView>
   );
 }
@@ -211,9 +263,11 @@ const styles = StyleSheet.create({
   polaRed: { flex: 1 },
   polje: {
     borderWidth: 1, borderColor: "#CBD5E1", borderRadius: 8,
-    paddingVertical: 12, paddingHorizontal: 14, fontSize: 16,
-    backgroundColor: "white", color: "#0F172A",
+    paddingVertical: 12, paddingHorizontal: 14,
+    backgroundColor: "white",
   },
+  poljeTekst: { fontSize: 16, color: "#0F172A" },
+  placeholder: { fontSize: 16, color: "#94A3B8" },
   kartica: { backgroundColor: "white", borderRadius: 14, padding: 14, gap: 14 },
   brojacRed: { flexDirection: "row", alignItems: "center", gap: 10 },
   brojacNaziv: { flex: 1, fontSize: 15, fontWeight: "600", color: "#0F172A" },
@@ -232,4 +286,20 @@ const styles = StyleSheet.create({
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
   },
   gumbTekst: { color: "white", fontSize: 15, fontWeight: "bold" },
+  pozadina: {
+    flex: 1, backgroundColor: "rgba(15,23,42,0.5)",
+    justifyContent: "center", alignItems: "center", padding: 20,
+  },
+  modalKartica: {
+    backgroundColor: "white", borderRadius: 16, padding: 16, width: "100%",
+  },
+  modalNaslov: {
+    fontSize: 16, fontWeight: "bold", color: "#0F172A",
+    marginBottom: 8, textAlign: "center",
+  },
+  modalGumb: {
+    backgroundColor: "#5D70E5", borderRadius: 10,
+    paddingVertical: 12, alignItems: "center", marginTop: 8,
+  },
+  modalGumbTekst: { color: "white", fontSize: 15, fontWeight: "bold" },
 });
