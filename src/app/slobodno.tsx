@@ -53,14 +53,6 @@ export default function Slobodno() {
                         : `${formatirajDatum(trazeniOd)} – ${formatirajDatum(trazeniDo)}`}
             </Text>
 
-            <Pressable
-                style={styles.dropdown}
-                onPress={() => postaviOtvorenIzbornik(!otvorenIzbornik)}
-            >
-                <Text style={styles.dropdownTekst}>{odabraniApartman === "" ? "ODABERI" : odabraniApartman}</Text>
-                <Ionicons name="chevron-down" size={18} color="white" />
-            </Pressable>
-
             <Modal
                 visible={otvorenIzbornik}
                 transparent={true}
@@ -71,16 +63,25 @@ export default function Slobodno() {
                     <Pressable style={styles.modalKartica} onPress={() => { }}>
                         <Text style={styles.modalNaslov}>Odaberi apartman</Text>
 
+                        <Pressable style={styles.izbornikStavka} onPress={
+                            () => {
+                                postaviApartman("");
+                                postaviOtvorenIzbornik(false);
+                            }
+                        }>
+                            <Text style={styles.izbornikTekst}>Svi apartmani</Text>
+                        </Pressable>
+
                         {apartmani.map(a => (
                             <Pressable
                                 key={a}
-                                style={styles.izbornikStavka}
+                                style={[styles.izbornikStavka, odabraniApartman === a && styles.izbornikOdabran]}
                                 onPress={() => {
                                     postaviApartman(a);
                                     postaviOtvorenIzbornik(false);
                                 }}
                             >
-                                <Text style={styles.izbornikTekst}>{a}</Text>
+                                <Text style={[styles.izbornikStavka, odabraniApartman === a && styles.izbornikOdabran]}>{a}</Text>
                             </Pressable>
                         ))}
                     </Pressable>
@@ -88,6 +89,15 @@ export default function Slobodno() {
             </Modal>
 
             <View style={styles.filterKartica}>
+                <View style={styles.apartmanBlok}>
+                    <Text style={styles.mala}>APARTMAN</Text>
+                    <Pressable style={styles.polje} onPress={() => postaviOtvorenIzbornik(true)}>
+                        <Ionicons name="home-outline" size={16} color="#64748B" />
+                        <Text style={odabraniApartman === "" ? styles.placeholder : styles.poljeTekst}>
+                            {odabraniApartman === "" ? "Svi apartmani" : odabraniApartman}
+                        </Text>
+                    </Pressable>
+                </View>
                 <View style={styles.red}>
                     <View style={styles.polaRed}>
                         <Text style={styles.mala}>OD</Text>
@@ -124,7 +134,7 @@ export default function Slobodno() {
                     <Ionicons name="close-circle-outline" size={40} color="#DC2626" />
                     <Text style={styles.praznoNaslov}>Nema slobodnih apartmana</Text>
                     <Text style={styles.praznoOpis}>
-                        U odabranim datumima svi su apartmani zauzeti. Probaj drugi termin.
+                        Svi su apartmani zauzeti. Pokušajte drugi termin.
                     </Text>
                 </View>
             ) : (
@@ -146,7 +156,6 @@ export default function Slobodno() {
                                     </Text>
                                 </View>
 
-                                <Ionicons name="chevron-forward" size={20} color="#CBD5E1" />
                             </Pressable>
                         ))}
                 </>
@@ -198,6 +207,12 @@ export default function Slobodno() {
 }
 
 const styles = StyleSheet.create({
+    apartmanBlok: {
+        marginBottom: 12,
+    },
+    izbornikOdabran: {
+        backgroundColor: "#EEF2FF",
+    },
     ekran: { flex: 1, backgroundColor: "#F1F5F9" },
     sadrzaj: { padding: 20, paddingBottom: 40 },
     natrag: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
@@ -273,12 +288,12 @@ const styles = StyleSheet.create({
         color: "#0F172A",
     },
     dropdown: {
-    backgroundColor: "#5D70E5", borderRadius: 20, paddingVertical: 10, paddingHorizontal: 18,
-    flexDirection: "row", alignItems: "center", gap: 10, alignSelf: "flex-start", marginBottom: 13
-  },
-  dropdownTekst: { color: "white", fontSize: 15, fontWeight: "bold" },
-  izbornik: {
-    backgroundColor: "#5D70E5", borderRadius: 10, marginTop: 6, paddingVertical: 6,
-    alignSelf: "flex-start", minWidth: 160,
-  }
+        backgroundColor: "#5D70E5", borderRadius: 20, paddingVertical: 10, paddingHorizontal: 18,
+        flexDirection: "row", alignItems: "center", gap: 10, alignSelf: "flex-start", marginBottom: 13
+    },
+    dropdownTekst: { color: "white", fontSize: 15, fontWeight: "bold" },
+    izbornik: {
+        backgroundColor: "#5D70E5", borderRadius: 10, marginTop: 6, paddingVertical: 6,
+        alignSelf: "flex-start", minWidth: 160,
+    }
 });

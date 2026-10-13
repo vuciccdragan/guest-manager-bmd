@@ -9,7 +9,7 @@ const izbornik = [
   { naziv: "Apartmani", opis: "Detalji i rezervacije", ikona: "home", ruta: "/apartmani", boja: "#0EA5E9" },
   { naziv: "Slobodno", opis: "Pretraga po datumima", ikona: "search", ruta: "/slobodno", boja: "#16A34A" },
   { naziv: "Dnevni plan", opis: "Zadaci za danas", ikona: "checkmark-done", ruta: "/dnevni-plan", boja: "#F59E0B" },
-  { naziv: "Raspored gostiju", opis: "Tko je trenutno u kući", ikona: "people", ruta: "/raspored-gostiju", boja: "#8B5CF6" },
+  { naziv: "Raspored gostiju", opis: "Trenutna zauzetost", ikona: "people", ruta: "/raspored-gostiju", boja: "#8B5CF6" },
 ];
 
 export default function Index() {

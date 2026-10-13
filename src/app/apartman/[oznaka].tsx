@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useGosti } from "@/context/gosti-context";
 import { bojaZaTipGosta } from "@/data/gosti";
-import formatirajDatum from "@/utils/datum";
+import {formatirajDatum} from "@/utils/datum";
 import { ostatakBrojaNoci } from "@/utils/datum";
 
 const nazivTipa = {
