@@ -5,6 +5,7 @@ type GostiContextTip = {
   gosti: Gost[];
   dodajGosta: (noviGost: Gost) => void;
   obrisiGosta: (id: number) => void;
+  urediGosta: (izmijenjeniGost: Gost) => void
 };
 
 const GostiContext = createContext<GostiContextTip | undefined>(undefined);
@@ -19,9 +20,12 @@ export function GostiProvider(props: { children: React.ReactNode }) {
   function obrisiGosta(id: number) {
     postaviGoste(gosti.filter(g => g.id !== id));
   }
+  function urediGosta(izmijenjeniGost: Gost) {
+    postaviGoste(gosti.map(g => g.id === izmijenjeniGost.id ? izmijenjeniGost : g ))
+  }
 
   return (
-    <GostiContext.Provider value={{ gosti, dodajGosta, obrisiGosta }}>
+    <GostiContext.Provider value={{ gosti, dodajGosta, obrisiGosta, urediGosta }}>
       {props.children}
     </GostiContext.Provider>
   );
