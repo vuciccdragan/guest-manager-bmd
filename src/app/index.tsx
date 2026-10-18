@@ -3,6 +3,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { useGosti } from "@/context/gosti-context";
 import { apartmani } from "@/data/apartmani";
+import { supabase } from "@/lib/supabase";
 
 const izbornik = [
   { naziv: "Stanje ville", opis: "Pregled svih apartmana", ikona: "calendar", ruta: "/stanje-ville", boja: "#5D70E5" },
