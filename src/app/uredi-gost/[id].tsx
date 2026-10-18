@@ -10,7 +10,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function GostUredi() {
     const parametri = useLocalSearchParams();
-    const trazeniId = parseInt(parametri.id as string);
+    const trazeniId = (parametri.id as string);
     const router = useRouter();
 
     const { gosti, urediGosta, obrisiGosta } = useGosti();

@@ -1,5 +1,5 @@
 export type Gost = {
-    id: number,
+    id: string,
     ime: string,
     apartman: string,
     odDatum: string,
@@ -17,7 +17,7 @@ export const bojaZaTipGosta = {
 
 export const gosti: Gost[] = [
     {
-        id: 1,
+        id: "1",
         ime: "Marko Marić",
         apartman: "A1",
         odDatum: "2026-10-10",
@@ -27,7 +27,7 @@ export const gosti: Gost[] = [
         djeca: 0
     }, 
     {
-        id: 2,
+        id: "2",
         ime: "Ana Anić",
         apartman: "A2",
         odDatum: "2026-10-05",
@@ -37,7 +37,7 @@ export const gosti: Gost[] = [
         djeca: 2
     },
     {
-        id: 3,
+        id: "3",
         ime: "Ivana Ivić",
         apartman: "A5",
         odDatum: "2026-10-05",
@@ -47,7 +47,7 @@ export const gosti: Gost[] = [
         djeca: 1
     },
     {
-        id: 4,
+        id: "4",
         ime: "Boris Šarić",
         apartman: "A4",
         odDatum: "2026-11-16",

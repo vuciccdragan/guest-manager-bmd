@@ -4,7 +4,7 @@ import { Gost, gosti as pocetniGosti } from "../data/gosti";
 type GostiContextTip = {
   gosti: Gost[];
   dodajGosta: (noviGost: Gost) => void;
-  obrisiGosta: (id: number) => void;
+  obrisiGosta: (id: string) => void;
   urediGosta: (izmijenjeniGost: Gost) => void
 };
 
@@ -17,7 +17,7 @@ export function GostiProvider(props: { children: React.ReactNode }) {
     postaviGoste([...gosti, noviGost]);
   }
 
-  function obrisiGosta(id: number) {
+  function obrisiGosta(id: string) {
     postaviGoste(gosti.filter(g => g.id !== id));
   }
   function urediGosta(izmijenjeniGost: Gost) {

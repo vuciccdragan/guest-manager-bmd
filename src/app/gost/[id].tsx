@@ -15,7 +15,7 @@ const nazivTipa = {
 export default function GostDetalji() {
   const router = useRouter();
   const parametri = useLocalSearchParams();
-  const trazeniId = parseInt(parametri.id as string);
+  const trazeniId = (parametri.id as string);
 
   const { gosti } = useGosti();
   const gost = gosti.find(g => g.id === trazeniId);
