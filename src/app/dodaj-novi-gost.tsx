@@ -79,7 +79,7 @@ export default function DodajNovogGosta() {
     }
 
     const noviGost: Gost = {
-      id: Date.now(),
+      id: Date.now().toString(),
       ime: imeGosta,
       apartman: apartman,
       odDatum: datumOd,
