@@ -36,7 +36,7 @@ export default function PrijaviKorisnika() {
                     style={styles.polje}
                     value={email}
                     onChangeText={postaviEmail}
-                    placeholder="ime@primjer.com"
+                    placeholder="name@example.com"
                     placeholderTextColor="#94A3B8"
                     autoCapitalize="none"
                     keyboardType="email-address"
