@@ -10,13 +10,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GostiProvider } from "@/context/gosti-context";
 import { AuthProvider, useAuth } from "@/context/auth-context";
 import { useEffect } from "react";
+import { PostavkeProvider } from "@/context/postavke-context";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <GostiProvider>
-        <Sadrzaj />
-      </GostiProvider>
+      <PostavkeProvider>
+        <GostiProvider>
+          <Sadrzaj />
+        </GostiProvider>
+      </PostavkeProvider>
     </AuthProvider>
   );
 }
