@@ -5,6 +5,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useGosti } from "@/context/gosti-context";
 import { bojaZaTipGosta } from "@/data/gosti";
 import { formatirajDatum, brojNociUkupno } from "@/utils/datum";
+import RasporedServisa from "@/components/raspored-servisa";
 
 const nazivTipa = {
   booking: "Booking",
@@ -87,6 +88,7 @@ export default function GostDetalji() {
             <MaterialCommunityIcons name="baby-face-outline" size={18} color="#64748B" />
             <Text style={styles.detaljTekst}>{gost.djeca} djece</Text>
           </View>
+          <RasporedServisa gostProp={gost} />
         </View>
       </View>
 

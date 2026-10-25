@@ -48,3 +48,24 @@ export function pomakniDatum(datum: string, brojDana: number): string {
 
     return novi.toISOString().split("T")[0];
 }
+
+export function generirajServise(
+  odDatum: string,
+  doDatum: string,
+  razmak: number
+): string[] {
+  const datumi: string[] = [];
+
+  if (razmak <= 0) {
+    return datumi;
+  }
+
+  let trenutni = pomakniDatum(odDatum, razmak);
+
+  while (trenutni < doDatum) {
+    datumi.push(trenutni);
+    trenutni = pomakniDatum(trenutni, razmak);
+  }
+
+  return datumi;
+}

@@ -9,7 +9,7 @@ export default function RasporedGostiju() {
   const danas = new Date().toISOString().split("T")[0];
   const { gosti } = useGosti();
   const router = useRouter();
-  const trenutniGosti = gosti.filter(gost => gost.odDatum < danas && gost.doDatum > danas)
+  const trenutniGosti = gosti.filter(gost => gost.odDatum <= danas && gost.doDatum > danas)
   const slobodniApartmani = apartmani.filter(apartman =>
     !trenutniGosti.some(gost => gost.apartman === apartman)
   );

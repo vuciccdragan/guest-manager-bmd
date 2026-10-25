@@ -11,13 +11,16 @@ import { GostiProvider } from "@/context/gosti-context";
 import { AuthProvider, useAuth } from "@/context/auth-context";
 import { useEffect } from "react";
 import { PostavkeProvider } from "@/context/postavke-context";
+import { ServisiProvider } from "@/context/servisi-context";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
       <PostavkeProvider>
         <GostiProvider>
+          <ServisiProvider>
           <Sadrzaj />
+          </ServisiProvider>
         </GostiProvider>
       </PostavkeProvider>
     </AuthProvider>
@@ -56,7 +59,7 @@ function Sadrzaj() {
   return (
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: insets.top }]}>
-        <Image style={styles.tinyLogo} source={require("../../assets/images/villa_bomada_white.png")} />
+        <Pressable onPress={() => router.replace("/")}><Image style={styles.tinyLogo} source={require("../../assets/images/villa_bomada_white.png")} /></Pressable>
         <Pressable onPress={() => router.push("/postavke")}>
           <Feather name="settings" size={30} color="white" />
         </Pressable>

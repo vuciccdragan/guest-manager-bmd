@@ -1,5 +1,6 @@
 import { Gost } from "@/data/gosti";
 import { Postavke } from "@/data/postavke";
+import { Servis } from "@/data/servisi";
 
 export function izBaze(redak: any): Gost {
     return {
@@ -42,5 +43,17 @@ export function postavkeUBazu(postavke: Postavke) {
     servis_booking: postavke.servisBooking,
     servis_direkt: postavke.servisDirekt,
     servis_prijatelji: postavke.servisPrijatelji,
+  };
+}
+
+export function servisIzBaze(redak: any): Servis {
+  return {
+    id: redak.id,
+    gostId: redak.gost_id,
+    objektId: redak.objekt_id,
+    datum: redak.datum,
+    napomena: redak.napomena,
+    rucno: redak.rucno,
+    uklonjen: redak.uklonjen,
   };
 }
