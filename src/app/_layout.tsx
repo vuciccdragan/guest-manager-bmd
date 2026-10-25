@@ -12,16 +12,22 @@ import { AuthProvider, useAuth } from "@/context/auth-context";
 import { useEffect } from "react";
 import { PostavkeProvider } from "@/context/postavke-context";
 import { ServisiProvider } from "@/context/servisi-context";
+import { ZadaciProvider } from "@/context/zadaci-conext";
+import { OdradenoProvider } from "@/context/odradeno-context";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
       <PostavkeProvider>
         <ServisiProvider>
-        <GostiProvider>
-          <Sadrzaj />
-        </GostiProvider>
-         </ServisiProvider>
+          <ZadaciProvider>
+            <OdradenoProvider>
+              <GostiProvider>
+                <Sadrzaj />
+              </GostiProvider>
+            </OdradenoProvider>
+          </ZadaciProvider>
+        </ServisiProvider>
       </PostavkeProvider>
     </AuthProvider>
   );
