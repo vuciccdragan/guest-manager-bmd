@@ -17,11 +17,11 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <PostavkeProvider>
+        <ServisiProvider>
         <GostiProvider>
-          <ServisiProvider>
           <Sadrzaj />
-          </ServisiProvider>
         </GostiProvider>
+         </ServisiProvider>
       </PostavkeProvider>
     </AuthProvider>
   );

@@ -102,6 +102,19 @@ export default function DodajNovogGosta() {
     router.back();
   }
 
+  function zatvoriBirac() {
+  const danas = new Date().toISOString().split("T")[0];
+
+  if (biracOtvoren === "od" && datumOd === "") {
+    postaviDatumOd(danas);
+  }
+  if (biracOtvoren === "do" && datumDo === "") {
+    postaviDatumDo(danas);
+  }
+
+  postaviBiracOtvoren(null);
+}
+
   return (
     <ScrollView style={styles.ekran} contentContainerStyle={styles.sadrzaj}>
 
@@ -120,7 +133,7 @@ export default function DodajNovogGosta() {
         animationType="fade"
         onRequestClose={() => postaviOtvorenIzbornik(false)}
       >
-        <Pressable style={styles.pozadina} onPress={() => postaviOtvorenIzbornik(false)}>
+        <Pressable style={styles.pozadina} onPress={zatvoriBirac}>
           <Pressable style={styles.modalKartica} onPress={() => { }}>
             <Text style={styles.modalNaslov}>Odaberi apartman</Text>
 
@@ -241,7 +254,7 @@ export default function DodajNovogGosta() {
               onValueChange={(dogadaj, odabrani) => odaberiDatum(odabrani)}
             />
 
-            <Pressable style={styles.modalGumb} onPress={() => postaviBiracOtvoren(null)}>
+            <Pressable style={styles.modalGumb} onPress={ zatvoriBirac}>
               <Text style={styles.modalGumbTekst}>GOTOVO</Text>
             </Pressable>
           </Pressable>

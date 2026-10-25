@@ -4,6 +4,8 @@ import { supabase } from "@/lib/supabase";
 import { izBaze, uBazu } from "@/utils/mapiranje";
 import { usePostavke } from "./postavke-context";
 import { generirajServise } from "@/utils/datum";
+import { useServisi } from "./servisi-context";
+
 
 type GostiContextTip = {
   gosti: Gost[];
@@ -20,6 +22,7 @@ export function GostiProvider(props: { children: React.ReactNode }) {
   const [gosti, postaviGoste] = useState<Gost[]>([]);
   const [objektId, postaviObjektId] = useState<string | null>(null);
   const { postavke } = usePostavke();
+  const { osvjeziServise } = useServisi();
 
   function razmakZaTip(tip: string): number {
     if (!postavke) return 0;
@@ -62,6 +65,8 @@ export function GostiProvider(props: { children: React.ReactNode }) {
         console.log("Greška pri spremanju servisa:", error.message);
       }
     }
+
+    await osvjeziServise();
   }
 
   async function dodajGosta(noviGost: Gost) {
