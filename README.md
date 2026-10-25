@@ -39,8 +39,3 @@ Start the development server:
 npx expo start
 
 Then open the project in Expo Go, an Android emulator, or an iOS simulator.
-
-## Note
-
-This project is written by hand, without AI code generation. The goal is to
-learn the stack properly rather than ship something I don't understand.
