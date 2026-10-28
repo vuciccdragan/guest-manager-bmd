@@ -91,6 +91,12 @@ that guest. The current day is highlighted.
 
 ![Property timeline](docs/timeline.png)
 
+### Current occupancy
+
+Who is in the property right now, and which apartments are free.
+
+![Current occupancy](docs/current.jpg)
+
 ### Apartments
 
 Every apartment with its current status — who is staying and until when,
@@ -110,8 +116,15 @@ Each stay is broken down night by night. Apartment visits are suggested
 automatically from the service rules and can be moved to another day or
 removed; manual changes survive later edits to the reservation.
 
-![Guest detail](docs/guestDetails.png)
-![Editing a scheduled visit](docs/editServices.png)
+![Guest detail](docs/guestDetails.jpg)
+![Editing a scheduled visit](docs/editServices.jpg)
+
+### Editing a reservation
+
+Dates and party size can be changed after the fact; the stay schedule is
+recalculated around any manual adjustments.
+
+![Editing a reservation](docs/editGuest.jpg)
 
 ### Daily plan
 
@@ -119,7 +132,7 @@ Everything due on a given day — departures, arrivals, cleaning and
 scheduled visits — with checkboxes and free-form notes. Checked items
 persist across devices.
 
-![Daily plan](docs/dailyTasks.png)
+![Daily plan](docs/dailyTasks.jpg)
 
 ### New reservation
 
@@ -133,7 +146,7 @@ and past dates are rejected before saving.
 Which apartments are free from a chosen date, optionally narrowed to one
 apartment, with the date each one is free until.
 
-![Availability search](docs/searchFeature.png)
+![Availability search](docs/searchFeature.jpg)
 
 ### Settings
 
