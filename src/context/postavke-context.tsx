@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 import { Postavke } from "@/data/postavke";
 import { supabase } from "@/lib/supabase";
 import { postavkeIzBaze, postavkeUBazu } from "@/utils/mapiranje";
+import { useAuth } from "./auth-context";
 
 type PostavkeContextTip = {
   postavke: Postavke | null;
@@ -42,7 +43,12 @@ export function PostavkeProvider(props: { children: React.ReactNode }) {
     postaviPostavke(nove);
   }
 
+  const { sesija } = useAuth();
   useEffect(() => {
+    if (!sesija) {
+      postaviPostavke(null);
+      postaviUcitavanje(false);
+    }
     dohvatiPostavke();
   }, []);
 

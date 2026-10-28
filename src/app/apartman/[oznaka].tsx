@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useGosti } from "@/context/gosti-context";
 import { bojaZaTipGosta } from "@/data/gosti";
-import {formatirajDatum} from "@/utils/datum";
+import {formatirajDatumGodina} from "@/utils/datum";
 import { ostatakBrojaNoci } from "@/utils/datum";
 
 const nazivTipa = {
@@ -62,7 +62,7 @@ export default function ApartmanDetalji() {
             <View style={styles.infoRed}>
               <Ionicons name="calendar-outline" size={16} color="#334155" />
               <Text style={styles.info}>
-                do {formatirajDatum(trenutniGost.doDatum)} · ostalo još{" "}
+                do {formatirajDatumGodina(trenutniGost.doDatum)} · ostalo još{" "}
                 {ostatakBrojaNoci(trenutniGost.doDatum)} noći
               </Text>
             </View>
@@ -87,7 +87,7 @@ export default function ApartmanDetalji() {
             <View style={styles.infoRed}>
               <Ionicons name="calendar-outline" size={16} color="#334155" />
               <Text style={styles.info}>
-                {formatirajDatum(sljedeciGost.odDatum)} – {formatirajDatum(sljedeciGost.doDatum)}
+                {formatirajDatumGodina(sljedeciGost.odDatum)} – {formatirajDatumGodina(sljedeciGost.doDatum)}
               </Text>
             </View>
           </>

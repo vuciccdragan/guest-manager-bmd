@@ -1,16 +1,24 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { useGosti } from "@/context/gosti-context";
 import { apartmani } from "@/data/apartmani";
 import { bojaZaTipGosta } from "@/data/gosti";
-import { formatirajDatum } from "@/utils/datum";
+import { formatirajDatumGodina } from "@/utils/datum";
 
 export default function Apartmani() {
   const router = useRouter();
-  const { gosti } = useGosti();
+  const { gosti, ucitavanje } = useGosti();
 
   const danas = new Date().toISOString().split("T")[0];
+
+  if (ucitavanje) {
+    return (
+      <View style={styles.sredina}>
+        <ActivityIndicator size="large" color="#5D70E5" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.ekran} contentContainerStyle={styles.sadrzaj}>
@@ -46,7 +54,7 @@ export default function Apartmani() {
                   <Text style={styles.ime}>{gost.ime}</Text>
                   <View style={styles.donjiRed}>
                     <View style={[styles.tocka, { backgroundColor: bojaZaTipGosta[gost.tipGosta] }]} />
-                    <Text style={styles.info}>do {formatirajDatum(gost.doDatum)}</Text>
+                    <Text style={styles.info}>do {formatirajDatumGodina(gost.doDatum)}</Text>
                   </View>
                 </>
               ) : (
@@ -69,6 +77,12 @@ export default function Apartmani() {
 const styles = StyleSheet.create({
   ekran: { flex: 1, backgroundColor: "#F1F5F9" },
   sadrzaj: { padding: 20, paddingBottom: 40 },
+  sredina: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F1F5F9",
+  },
   natrag: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   natragTekst: { fontSize: 15, color: "#5D70E5", fontWeight: "600" },
   naslov: { fontSize: 28, fontWeight: "bold", color: "#0F172A", marginBottom: 18 },

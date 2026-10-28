@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { zadatakIzBaze } from "@/utils/mapiranje";
 import { Zadatak } from "@/data/zadaci";
+import { useAuth } from "./auth-context";
 
 type ZadaciContextTip = {
   zadaci: Zadatak[];
@@ -94,7 +95,14 @@ export function ZadaciProvider(props: { children: React.ReactNode }) {
     postaviZadatke(zadaci.filter(z => z.id !== id));
   }
 
+  const { sesija } = useAuth();
+
   useEffect(() => {
+    if (!sesija) {
+      postaviZadatke([]);
+      postaviObjektId(null);
+      postaviUcitavanje(false);
+    }
     dohvatiObjekt();
     dohvatiZadatke();
   }, []);

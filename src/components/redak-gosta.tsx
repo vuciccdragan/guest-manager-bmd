@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { bojaZaTipGosta, Gost } from "../data/gosti";
-import {formatirajDatum} from "../utils/datum";
+import {formatirajDatumGodina} from "../utils/datum";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router, useRouter } from "expo-router";
 
@@ -35,7 +35,7 @@ export default function RedakGosta(props: { gostProp: Gost }) {
                             <MaterialCommunityIcons name="baby-bottle-outline" size={14} color="#334155" />
                         </View>
 
-                        <Text style={styles.info}>do {formatirajDatum(gost.doDatum)}</Text>
+                        <Text style={styles.info}>do {formatirajDatumGodina(gost.doDatum)}</Text>
                     </View>
                 </View>
 

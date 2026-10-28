@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { Servis } from "@/data/servisi";
 import { supabase } from "@/lib/supabase";
 import { servisIzBaze } from "@/utils/mapiranje";
+import { useAuth } from "./auth-context";
 
 type ServisiContextTip = {
   servisi: Servis[];
@@ -79,7 +80,13 @@ export function ServisiProvider(props: { children: React.ReactNode }) {
     );
   }
 
+  const { sesija } = useAuth();
+
   useEffect(() => {
+    if(!sesija) {
+      postaviServise([]);
+      postaviUcitavanje(false);
+    }
     osvjeziServise();
   }, []);
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView, ActivityIndicator } from "react-native";
 import RedakGosta from "../components/redak-gosta";
 import { useGosti } from "@/context/gosti-context";
 import { apartmani } from "../data/apartmani";
@@ -7,12 +7,20 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function RasporedGostiju() {
   const danas = new Date().toISOString().split("T")[0];
-  const { gosti } = useGosti();
+  const { gosti, ucitavanje } = useGosti();
   const router = useRouter();
   const trenutniGosti = gosti.filter(gost => gost.odDatum <= danas && gost.doDatum > danas)
   const slobodniApartmani = apartmani.filter(apartman =>
     !trenutniGosti.some(gost => gost.apartman === apartman)
   );
+
+  if (ucitavanje) {
+    return (
+      <View style={styles.sredina}>
+        <ActivityIndicator size="large" color="#5D70E5" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.sadrzaj}>
@@ -43,6 +51,12 @@ const styles = StyleSheet.create({
   sadrzaj: {
     padding: 20,
     gap: 14,
+  },
+  sredina: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F1F5F9",
   },
   natrag: {
     flexDirection: "row",

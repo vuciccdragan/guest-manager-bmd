@@ -5,7 +5,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Gost } from "@/data/gosti";
 import { Servis } from "@/data/servisi";
 import { useServisi } from "@/context/servisi-context";
-import { formatirajDatum, nazoviDane, pomakniDatum } from "@/utils/datum";
+import { formatirajDatumGodina, nazoviDane, pomakniDatum } from "@/utils/datum";
 
 export default function RasporedServisa(props: { gostProp: Gost }) {
   const gost = props.gostProp;
@@ -57,7 +57,7 @@ export default function RasporedServisa(props: { gostProp: Gost }) {
         return (
           <View key={datum} style={styles.red}>
             <View style={styles.datumBlok}>
-              <Text style={styles.datumBroj}>{formatirajDatum(datum).split(".")[0]}</Text>
+              <Text style={styles.datumBroj}>{formatirajDatumGodina(datum).split(".")[0]}</Text>
               <Text style={styles.datumDan}>{nazoviDane(datum).slice(0, 3).toUpperCase()}</Text>
             </View>
 
@@ -118,7 +118,7 @@ export default function RasporedServisa(props: { gostProp: Gost }) {
           <Pressable style={styles.modalKartica} onPress={() => {}}>
             <Text style={styles.modalNaslov}>Dnevni ulazak</Text>
             <Text style={styles.modalPodnaslov}>
-              {odabrani ? formatirajDatum(odabrani.datum) : ""}
+              {odabrani ? formatirajDatumGodina(odabrani.datum) : ""}
             </Text>
 
             <Text style={styles.modalOznaka}>PREBACI NA DRUGI DAN</Text>

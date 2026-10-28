@@ -4,7 +4,7 @@ import { useServisi } from "@/context/servisi-context";
 import { useZadatke } from "@/context/zadaci-conext";
 import { useOdradeno } from "@/context/odradeno-context";
 import { useRouter } from "expo-router";
-import { pomakniDatum, formatirajDatum, nazoviDane } from "@/utils/datum";
+import { pomakniDatum, formatirajDatumGodina, nazoviDane } from "@/utils/datum";
 import { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -47,7 +47,7 @@ export default function DnevniPlan() {
                 </Pressable>
 
                 <Pressable onPress={() => postaviPrikaziBirac(true)}>
-                    <Text style={styles.datum}>{nazoviDane(datum)}, {formatirajDatum(datum)}</Text>
+                    <Text style={styles.datum}>{nazoviDane(datum)}, {formatirajDatumGodina(datum)}</Text>
                 </Pressable>
 
                 <Pressable onPress={() => postaviDatum(pomakniDatum(datum, 1))}>

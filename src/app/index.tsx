@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { useGosti } from "@/context/gosti-context";
@@ -15,7 +15,7 @@ const izbornik = [
 
 export default function Index() {
   const router = useRouter();
-  const { gosti } = useGosti();
+  const { gosti, ucitavanje } = useGosti();
 
   const danas = new Date().toISOString().split("T")[0];
 
@@ -23,6 +23,14 @@ export default function Index() {
   const dolasciDanas = gosti.filter(g => g.odDatum === danas);
   const odlasciDanas = gosti.filter(g => g.doDatum === danas);
   const slobodnih = apartmani.length - trenutniGosti.length;
+
+  if (ucitavanje) {
+    return (
+      <View style={styles.sredina}>
+        <ActivityIndicator size="large" color="#5D70E5" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.ekran} contentContainerStyle={styles.sadrzaj}>
@@ -72,6 +80,12 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   ekran: { flex: 1, backgroundColor: "#F1F5F9" },
+  sredina: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F1F5F9",
+  },
   sadrzaj: { padding: 20, paddingBottom: 40 },
   pozdrav: { fontSize: 28, fontWeight: "bold", color: "#0F172A" },
   podnaslov: { fontSize: 15, color: "#64748B", marginTop: 2, marginBottom: 20 },

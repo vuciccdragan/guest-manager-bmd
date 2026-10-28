@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useGosti } from "@/context/gosti-context";
 import { useRouter } from "expo-router";
 import { apartmani } from "@/data/apartmani";
-import { formatirajDatum } from "@/utils/datum";
+import { formatirajDatumGodina } from "@/utils/datum";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function Slobodno() {
@@ -47,10 +47,10 @@ export default function Slobodno() {
             <Text style={styles.naslov}>Slobodni apartmani</Text>
             <Text style={styles.podnaslov}>
                 {!pretragaAktivna
-                    ? `Stanje danas, ${formatirajDatum(danas)}`
+                    ? `Stanje danas, ${formatirajDatumGodina(danas)}`
                     : datumDo === ""
-                        ? `Od ${formatirajDatum(trazeniOd)}`
-                        : `${formatirajDatum(trazeniOd)} – ${formatirajDatum(trazeniDo)}`}
+                        ? `Od ${formatirajDatumGodina(trazeniOd)}`
+                        : `${formatirajDatumGodina(trazeniOd)} – ${formatirajDatumGodina(trazeniDo)}`}
             </Text>
 
             <Modal
@@ -103,7 +103,7 @@ export default function Slobodno() {
                         <Text style={styles.mala}>OD</Text>
                         <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("od")}>
                             <Text style={datumOd === "" ? styles.placeholder : styles.poljeTekst}>
-                                {datumOd === "" ? "Odaberi" : formatirajDatum(datumOd)}
+                                {datumOd === "" ? "Odaberi" : formatirajDatumGodina(datumOd)}
                             </Text>
                         </Pressable>
                     </View>
@@ -112,7 +112,7 @@ export default function Slobodno() {
                         <Text style={styles.mala}>DO</Text>
                         <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("do")}>
                             <Text style={datumDo === "" ? styles.placeholder : styles.poljeTekst}>
-                                {datumDo === "" ? "Odaberi" : formatirajDatum(datumDo)}
+                                {datumDo === "" ? "Odaberi" : formatirajDatumGodina(datumDo)}
                             </Text>
                         </Pressable>
                     </View>
@@ -151,8 +151,8 @@ export default function Slobodno() {
                                     <Text style={styles.statusSlobodan}>Slobodan</Text>
                                     <Text style={styles.info}>
                                         {sljedeciDolazak(oznaka) === null
-                                            ? `Od ${formatirajDatum(trazeniOd)} nadalje`
-                                            : `${formatirajDatum(trazeniOd)} – ${formatirajDatum(sljedeciDolazak(oznaka)!)}`}
+                                            ? `Od ${formatirajDatumGodina(trazeniOd)} nadalje`
+                                            : `${formatirajDatumGodina(trazeniOd)} – ${formatirajDatumGodina(sljedeciDolazak(oznaka)!)}`}
                                     </Text>
                                 </View>
 

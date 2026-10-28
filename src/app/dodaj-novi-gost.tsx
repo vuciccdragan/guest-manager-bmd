@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { apartmani } from "../data/apartmani";
 import { useGosti } from "@/context/gosti-context";
 import { Gost } from "@/data/gosti";
-import { formatirajDatum } from "@/utils/datum";
+import { formatirajDatumGodina } from "@/utils/datum";
 
 const tipovi = [
   { kljuc: "booking", naziv: "Booking", boja: "#16A34A", ikona: "earth" },
@@ -30,6 +30,7 @@ export default function DodajNovogGosta() {
   const [djeca, postaviDjecu] = useState(0);
   const [otvorenIzbornik, postaviOtvorenIzbornik] = useState(false);
   const [biracOtvoren, postaviBiracOtvoren] = useState<"od" | "do" | null>(null);
+  const danas = new Date().toISOString().split("T")[0];
 
   function dodajOdraslog() {
     if (odrasli + djeca >= maxOsoba) return;
@@ -51,8 +52,13 @@ export default function DodajNovogGosta() {
   }
 
   function trenutnaVrijednostBiraca() {
-    const vrijednost = biracOtvoren === "od" ? datumOd : datumDo;
-    return vrijednost === "" ? new Date() : new Date(vrijednost);
+    if (biracOtvoren === "od") {
+      return datumOd === "" ? new Date() : new Date(datumOd);
+    }
+
+    if (datumDo !== "") return new Date(datumDo);
+    if (datumOd !== "") return new Date(datumOd);
+    return new Date();
   }
 
   function spremiRezervaciju() {
@@ -63,6 +69,11 @@ export default function DodajNovogGosta() {
 
     if (datumDo <= datumOd) {
       Alert.alert("Greška", "Datum odlaska mora biti nakon datuma dolaska.");
+      return;
+    }
+
+    if (datumDo <= danas) {
+      Alert.alert("Greška", "Datum odlaska mora biti u budućnosti.");
       return;
     }
 
@@ -103,17 +114,17 @@ export default function DodajNovogGosta() {
   }
 
   function zatvoriBirac() {
-  const danas = new Date().toISOString().split("T")[0];
+    const danas = new Date().toISOString().split("T")[0];
 
-  if (biracOtvoren === "od" && datumOd === "") {
-    postaviDatumOd(danas);
-  }
-  if (biracOtvoren === "do" && datumDo === "") {
-    postaviDatumDo(danas);
-  }
+    if (biracOtvoren === "od" && datumOd === "") {
+      postaviDatumOd(danas);
+    }
+    if (biracOtvoren === "do" && datumDo === "") {
+      postaviDatumDo(danas);
+    }
 
-  postaviBiracOtvoren(null);
-}
+    postaviBiracOtvoren(null);
+  }
 
   return (
     <ScrollView style={styles.ekran} contentContainerStyle={styles.sadrzaj}>
@@ -159,7 +170,7 @@ export default function DodajNovogGosta() {
           <Text style={styles.mala}>OD</Text>
           <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("od")}>
             <Text style={datumOd === "" ? styles.placeholder : styles.poljeTekst}>
-              {datumOd === "" ? "Odaberi" : formatirajDatum(datumOd)}
+              {datumOd === "" ? "Odaberi" : formatirajDatumGodina(datumOd)}
             </Text>
           </Pressable>
         </View>
@@ -168,7 +179,7 @@ export default function DodajNovogGosta() {
           <Text style={styles.mala}>DO</Text>
           <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("do")}>
             <Text style={datumDo === "" ? styles.placeholder : styles.poljeTekst}>
-              {datumDo === "" ? "Odaberi" : formatirajDatum(datumDo)}
+              {datumDo === "" ? "Odaberi" : formatirajDatumGodina(datumDo)}
             </Text>
           </Pressable>
         </View>
@@ -252,9 +263,14 @@ export default function DodajNovogGosta() {
               themeVariant="light"
               accentColor="#5D70E5"
               onValueChange={(dogadaj, odabrani) => odaberiDatum(odabrani)}
+              minimumDate={
+                biracOtvoren === "do" && datumOd !== ""
+                  ? new Date(datumOd)
+                  : new Date()
+              }
             />
 
-            <Pressable style={styles.modalGumb} onPress={ zatvoriBirac}>
+            <Pressable style={styles.modalGumb} onPress={zatvoriBirac}>
               <Text style={styles.modalGumbTekst}>GOTOVO</Text>
             </Pressable>
           </Pressable>

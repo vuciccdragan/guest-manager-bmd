@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./auth-context";
 import { Gost } from "../data/gosti";
 import { supabase } from "@/lib/supabase";
 import { izBaze, uBazu } from "@/utils/mapiranje";
@@ -23,6 +24,7 @@ export function GostiProvider(props: { children: React.ReactNode }) {
   const [objektId, postaviObjektId] = useState<string | null>(null);
   const { postavke } = usePostavke();
   const { osvjeziServise } = useServisi();
+  const { sesija } = useAuth();
 
   function razmakZaTip(tip: string): number {
     if (!postavke) return 0;
@@ -125,12 +127,10 @@ export function GostiProvider(props: { children: React.ReactNode }) {
 
     if (error) {
       console.log("Greška pri dohvatu:", error.message);
-      postaviUcitavanje(false);
       return;
     }
 
     postaviGoste(data.map(izBaze));
-    postaviUcitavanje(false);
   }
 
   async function dohvatiObjekt() {
@@ -148,9 +148,22 @@ export function GostiProvider(props: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    dohvatiObjekt();
-    dohvatiGoste();
-  }, []);
+    if (!sesija) {
+      postaviGoste([]);
+      postaviObjektId(null);
+      postaviUcitavanje(false);
+      return;
+    }
+
+    postaviUcitavanje(true);
+
+    async function ucitaj() {
+      await dohvatiObjekt();
+      await dohvatiGoste();
+      postaviUcitavanje(false);
+    }
+    ucitaj();
+  }, [sesija]);
 
   return (
     <GostiContext.Provider

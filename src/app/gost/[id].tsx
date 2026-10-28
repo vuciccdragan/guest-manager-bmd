@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useGosti } from "@/context/gosti-context";
 import { bojaZaTipGosta } from "@/data/gosti";
-import { formatirajDatum, brojNociUkupno } from "@/utils/datum";
+import { formatirajDatumGodina, brojNociUkupno } from "@/utils/datum";
 import RasporedServisa from "@/components/raspored-servisa";
 
 const nazivTipa = {
@@ -72,7 +72,7 @@ export default function GostDetalji() {
           <View style={styles.detaljRed}>
             <Ionicons name="calendar-outline" size={18} color="#64748B" />
             <Text style={styles.detaljTekst}>
-              {formatirajDatum(gost.odDatum)} – {formatirajDatum(gost.doDatum)}
+              {formatirajDatumGodina(gost.odDatum)} – {formatirajDatumGodina(gost.doDatum)}
             </Text>
             <Text style={styles.noci}>
               {brojNociUkupno(gost.odDatum, gost.doDatum)} noći

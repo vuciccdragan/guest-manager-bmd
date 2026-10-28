@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, Alert, Modal } from "rea
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useGosti } from "@/context/gosti-context";
-import { formatirajDatum, brojNociUkupno } from "@/utils/datum";
+import { formatirajDatumGodina, brojNociUkupno } from "@/utils/datum";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Gost } from "@/data/gosti";
@@ -104,7 +104,7 @@ export default function GostUredi() {
                         <Text style={styles.mala}>PRIJAVA</Text>
                         <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("od")}>
                             <Ionicons name="calendar-outline" size={16} color="#64748B" />
-                            <Text style={styles.poljeTekst}>{formatirajDatum(datumOd)}</Text>
+                            <Text style={styles.poljeTekst}>{formatirajDatumGodina(datumOd)}</Text>
                         </Pressable>
                     </View>
 
@@ -112,7 +112,7 @@ export default function GostUredi() {
                         <Text style={styles.mala}>ODJAVA</Text>
                         <Pressable style={styles.polje} onPress={() => postaviBiracOtvoren("do")}>
                             <Ionicons name="calendar-outline" size={16} color="#64748B" />
-                            <Text style={styles.poljeTekst}>{formatirajDatum(datumDo)}</Text>
+                            <Text style={styles.poljeTekst}>{formatirajDatumGodina(datumDo)}</Text>
                         </Pressable>
                     </View>
                 </View>

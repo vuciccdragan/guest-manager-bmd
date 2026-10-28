@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./auth-context";
 import { supabase } from "@/lib/supabase";
 
 type OdradenoContextTip = {
@@ -63,7 +64,14 @@ export function OdradenoProvider(props: { children: React.ReactNode }) {
     }
   }
 
+  const { sesija } = useAuth();
+
   useEffect(() => {
+    if (!sesija) {
+      postaviKljuceve([]);
+      postaviObjektId(null);
+      return;
+    }
     dohvatiObjekt();
     dohvatiOdradeno();
   }, []);
