@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -51,6 +51,13 @@ export default function DodajNovogGosta() {
     }
   }
 
+  function obradiAndroidOdabir(dogadaj: any, odabrani?: Date) {
+    postaviBiracOtvoren(null);
+    if (odabrani) {
+      odaberiDatum(odabrani);
+    }
+  }
+
   function trenutnaVrijednostBiraca() {
     if (biracOtvoren === "od") {
       return datumOd === "" ? new Date() : new Date(datumOd);
@@ -59,6 +66,24 @@ export default function DodajNovogGosta() {
     if (datumDo !== "") return new Date(datumDo);
     if (datumOd !== "") return new Date(datumOd);
     return new Date();
+  }
+
+  function najranijiDatum() {
+    if (biracOtvoren === "do" && datumOd !== "") {
+      return new Date(datumOd);
+    }
+    return new Date();
+  }
+
+  function zatvoriBirac() {
+    if (biracOtvoren === "od" && datumOd === "") {
+      postaviDatumOd(danas);
+    }
+    if (biracOtvoren === "do" && datumDo === "") {
+      postaviDatumDo(datumOd === "" ? danas : datumOd);
+    }
+
+    postaviBiracOtvoren(null);
   }
 
   function spremiRezervaciju() {
@@ -113,19 +138,6 @@ export default function DodajNovogGosta() {
     router.back();
   }
 
-  function zatvoriBirac() {
-    const danas = new Date().toISOString().split("T")[0];
-
-    if (biracOtvoren === "od" && datumOd === "") {
-      postaviDatumOd(danas);
-    }
-    if (biracOtvoren === "do" && datumDo === "") {
-      postaviDatumDo(danas);
-    }
-
-    postaviBiracOtvoren(null);
-  }
-
   return (
     <ScrollView style={styles.ekran} contentContainerStyle={styles.sadrzaj}>
 
@@ -144,7 +156,7 @@ export default function DodajNovogGosta() {
         animationType="fade"
         onRequestClose={() => postaviOtvorenIzbornik(false)}
       >
-        <Pressable style={styles.pozadina} onPress={zatvoriBirac}>
+        <Pressable style={styles.pozadina} onPress={() => postaviOtvorenIzbornik(false)}>
           <Pressable style={styles.modalKartica} onPress={() => { }}>
             <Text style={styles.modalNaslov}>Odaberi apartman</Text>
 
@@ -244,38 +256,45 @@ export default function DodajNovogGosta() {
         <Text style={styles.gumbTekst}>SPREMI REZERVACIJU</Text>
       </Pressable>
 
-      <Modal
-        visible={biracOtvoren !== null}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => postaviBiracOtvoren(null)}
-      >
-        <Pressable style={styles.pozadina} onPress={() => postaviBiracOtvoren(null)}>
-          <Pressable style={styles.modalKartica} onPress={() => { }}>
-            <Text style={styles.modalNaslov}>
-              {biracOtvoren === "od" ? "Datum dolaska" : "Datum odlaska"}
-            </Text>
+      {Platform.OS === "android" && biracOtvoren !== null && (
+        <DateTimePicker
+          value={trenutnaVrijednostBiraca()}
+          mode="date"
+          onChange={obradiAndroidOdabir}
+          minimumDate={najranijiDatum()}
+        />
+      )}
 
-            <DateTimePicker
-              value={trenutnaVrijednostBiraca()}
-              mode="date"
-              display="inline"
-              themeVariant="light"
-              accentColor="#5D70E5"
-              onValueChange={(dogadaj, odabrani) => odaberiDatum(odabrani)}
-              minimumDate={
-                biracOtvoren === "do" && datumOd !== ""
-                  ? new Date(datumOd)
-                  : new Date()
-              }
-            />
+      {Platform.OS === "ios" && (
+        <Modal
+          visible={biracOtvoren !== null}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={zatvoriBirac}
+        >
+          <Pressable style={styles.pozadina} onPress={zatvoriBirac}>
+            <Pressable style={styles.modalKartica} onPress={() => { }}>
+              <Text style={styles.modalNaslov}>
+                {biracOtvoren === "od" ? "Datum dolaska" : "Datum odlaska"}
+              </Text>
 
-            <Pressable style={styles.modalGumb} onPress={zatvoriBirac}>
-              <Text style={styles.modalGumbTekst}>GOTOVO</Text>
+              <DateTimePicker
+                value={trenutnaVrijednostBiraca()}
+                mode="date"
+                display="inline"
+                themeVariant="light"
+                accentColor="#5D70E5"
+                onValueChange={(dogadaj, odabrani) => odaberiDatum(odabrani)}
+                minimumDate={najranijiDatum()}
+              />
+
+              <Pressable style={styles.modalGumb} onPress={zatvoriBirac}>
+                <Text style={styles.modalGumbTekst}>GOTOVO</Text>
+              </Pressable>
             </Pressable>
           </Pressable>
-        </Pressable>
-      </Modal>
+        </Modal>
+      )}
 
     </ScrollView>
   );
@@ -291,10 +310,6 @@ const styles = StyleSheet.create({
     flexDirection: "row", alignItems: "center", gap: 10, alignSelf: "flex-start",
   },
   dropdownTekst: { color: "white", fontSize: 15, fontWeight: "bold" },
-  izbornik: {
-    backgroundColor: "#5D70E5", borderRadius: 10, marginTop: 6, paddingVertical: 6,
-    alignSelf: "flex-start", minWidth: 160,
-  },
   izbornikStavka: {
     paddingVertical: 12,
     paddingHorizontal: 16,

@@ -134,9 +134,12 @@ export function GostiProvider(props: { children: React.ReactNode }) {
   }
 
   async function dohvatiObjekt() {
+    if (!sesija) return;
+
     const { data, error } = await supabase
       .from("clanovi")
       .select("objekt_id")
+      .eq("korisnik_id", sesija.user.id)
       .single();
 
     if (error) {

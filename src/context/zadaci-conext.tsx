@@ -20,9 +20,12 @@ export function ZadaciProvider(props: { children: React.ReactNode }) {
   const [objektId, postaviObjektId] = useState<string | null>(null);
 
   async function dohvatiObjekt() {
+    if (!sesija) return;
+
     const { data, error } = await supabase
       .from("clanovi")
       .select("objekt_id")
+      .eq("korisnik_id", sesija.user.id)
       .single();
 
     if (error) {
@@ -102,10 +105,13 @@ export function ZadaciProvider(props: { children: React.ReactNode }) {
       postaviZadatke([]);
       postaviObjektId(null);
       postaviUcitavanje(false);
+      return;
     }
+
+    postaviUcitavanje(true);
     dohvatiObjekt();
     dohvatiZadatke();
-  }, []);
+  }, [sesija]);
 
   return (
     <ZadaciContext.Provider

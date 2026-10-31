@@ -1,4 +1,4 @@
-import { createContext, use, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Postavke } from "@/data/postavke";
 import { supabase } from "@/lib/supabase";
 import { postavkeIzBaze, postavkeUBazu } from "@/utils/mapiranje";
@@ -15,9 +15,28 @@ const PostavkeContext = createContext<PostavkeContextTip | undefined>(undefined)
 export function PostavkeProvider(props: { children: React.ReactNode }) {
   const [postavke, postaviPostavke] = useState<Postavke | null>(null);
   const [ucitavanje, postaviUcitavanje] = useState(true);
+  const { sesija } = useAuth();
 
   async function dohvatiPostavke() {
-    const { data, error } = await supabase.from("postavke").select("*").single();
+    if (!sesija) return;
+
+    const { data: clanstvo, error: greskaClanstvo } = await supabase
+      .from("clanovi")
+      .select("objekt_id")
+      .eq("korisnik_id", sesija.user.id)
+      .single();
+
+    if (greskaClanstvo) {
+      console.log("Greška pri dohvatu objekta:", greskaClanstvo.message);
+      postaviUcitavanje(false);
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("postavke")
+      .select("*")
+      .eq("objekt_id", clanstvo.objekt_id)
+      .single();
 
     if (error) {
       console.log("Greška pri dohvatu postavki:", error.message);
@@ -43,14 +62,16 @@ export function PostavkeProvider(props: { children: React.ReactNode }) {
     postaviPostavke(nove);
   }
 
-  const { sesija } = useAuth();
   useEffect(() => {
     if (!sesija) {
       postaviPostavke(null);
       postaviUcitavanje(false);
+      return;
     }
+
+    postaviUcitavanje(true);
     dohvatiPostavke();
-  }, []);
+  }, [sesija]);
 
   return (
     <PostavkeContext.Provider value={{ postavke, ucitavanje, spremiPostavke }}>
